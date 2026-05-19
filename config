@@ -1,0 +1,6 @@
+# Copyright (C) 2026 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+IMAGEREPOUSER="localhost:5000"
+IMAGENAME="gpu-test"
+NS="gpu-test"

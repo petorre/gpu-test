@@ -1,0 +1,33 @@
+{
+  "comment1": "Copyright (C) 2026 Intel Corporation",
+  "comment2": "SPDX-License-Identifier: Apache-2.0",
+  "script": {
+    "show": {
+      "description": true,
+      "timeStamps": true
+    },
+    "debug": true,
+    "namespacePause": 5,
+    "podPause": 20,
+    "namespace": "gpu-test",
+    "deployFiles": {
+      "directory": "k8s",
+      "namespace": "0-ns",
+      "gpuTest": "1-gpu-test"
+    }
+  },
+  "testCases": [
+    {
+      "name": "validateGPU",
+      "description": "Validate GPU allocation, run GPU manager and dummy app",
+      "allocationDeviceName": "nvidia.com/gpu",
+      "allocationDeviceMin": 1,
+      "comment1": "For gpumgrcmdresMustExist==true, the gpumgrcmdres must give  output starting with 0, ",
+      "gpumgrcmdresMustExist": true,
+      "comment2": "gpufreememMin is in MB",
+      "gpufreememMin": 1,
+      "comment3": "appcmdres is sample output of dummy application command",
+      "appcmdres": "333283328000.00"
+    }
+  ]
+}

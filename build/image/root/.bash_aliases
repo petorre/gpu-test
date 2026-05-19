@@ -1,0 +1,9 @@
+export ZES_ENABLE_SYSMAN=1
+export NEOReadDebugKeys=1
+export ClDeviceGlobalMemSizeAvailablePercent=100
+export EnableBlitterOperationsSupport=0
+export NEO_FORCE_ENABLE_PCI_BAR_RESOURCES=1
+export SYCL_CACHE_PERSISTENT=1
+export ZE_ENABLE_LOADER_VERSION_CHECK=0
+export ZE_ENABLE_VALIDATION_LAYER=0
+export OCL_ICD_FILENAMES=/usr/lib/x86_64-linux-gnu/intel-opencl/libigdrcl.so

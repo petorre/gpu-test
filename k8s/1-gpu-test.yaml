@@ -1,0 +1,49 @@
+# Copyright (C) 2026 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+#
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: gpu-test
+  namespace: gpu-test
+spec:
+  selector:
+    matchLabels:
+      app: gpu-test
+  template:
+    metadata:
+      labels:
+        app: gpu-test
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: gpu-test
+        image: localhost:5000/gpu-test:latest  # or where you pushed the image
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+          # capabilities:
+          #   add: ["SYS_ADMIN", "IPC_LOCK", "NET_ADMIN", "SYS_RESOURCE"]
+        resources:
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+            nvidia.com/gpu: "1"
+            #intel.com/gpu: "1"
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+            nvidia.com/gpu: "1"
+            #intel.com/gpu: "1"
+        env:
+          - name: USE_CUDA
+            value: "1"
+          #- name: USE_XPU
+          #  value: "1"
+          #- name: USE_CPU
+          #  value: "1"
+        command: ["/entrypoint.sh"]
+        #command: ["/bin/bash", "-c", "sleep infinity"]
+      # nodeSelector:
+      #   node-role.kubernetes.io/gpu: "true"  # any label to filter out other nodes
