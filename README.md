@@ -90,7 +90,6 @@ should give something like
 ```
 
 Started with debug flag ```./gpu-test.sh --debug``` would override debug=false field in config.json.
-```
 
 ## Validated OS, k8s distribution and server/VM with GPU
 
