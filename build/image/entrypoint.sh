@@ -31,7 +31,7 @@ fi
 
 appcmd="python3 test.py"
 echo "appcmd: ${appcmd}"
-tmpfile=$( mktemp )
+tmpfile=$( mktemp -p /mktemp )
 eval ${appcmd} > "${tmpfile}"
 echo -n "appcmdres: "
 tail -1 $tmpfile | cut -d' ' -f5

@@ -36,5 +36,10 @@ RUN if [ "$BUILD_XPU" = "1" ]; then \
         /opt/prep_venv.sh xpu; \
     fi
 
+RUN groupadd -g 10001 gpu-test && \
+    useradd -u 10001 -g gpu-test gpu-test
+USER gpu-test
+
 WORKDIR /root
 ENTRYPOINT ["/entrypoint.sh"]
+HEALTHCHECK NONE

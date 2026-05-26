@@ -22,9 +22,16 @@ spec:
         image: localhost:5000/gpu-test:latest  # or where you pushed the image
         imagePullPolicy: Always
         securityContext:
-          privileged: true
-          # capabilities:
-          #   add: ["SYS_ADMIN", "IPC_LOCK", "NET_ADMIN", "SYS_RESOURCE"]
+          runAsNonRoot: true
+          runAsUser: 10001
+          runAsGroup: 10001
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
         resources:
           limits:
             cpu: "2"
@@ -36,6 +43,9 @@ spec:
             memory: "4Gi"
             nvidia.com/gpu: "1"
             #intel.com/gpu: "1"
+        volumeMounts:
+          - mountPath: /mktemp
+            name: mktemp
         env:
           - name: USE_CUDA
             value: "1"
@@ -47,3 +57,7 @@ spec:
         #command: ["/bin/bash", "-c", "sleep infinity"]
       # nodeSelector:
       #   node-role.kubernetes.io/gpu: "true"  # any label to filter out other nodes
+      volumes:
+      - name: mktemp
+        emptyDir:
+          medium: Memory
