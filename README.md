@@ -100,7 +100,7 @@ Check group ID of render group with
 stat -c %g /dev/dri/renderD128
 ```
 
-which should be the same as ```supplementalGroups``` in [k8s/1-gpu-test-xpu.yaml](./k8s/1-gpu-test-xpu.yaml).
+which should be the same as ```supplementalGroups``` in [k8s/1-gpu-test-xpu.yaml](./k8s/1-gpu-test-xpu.yaml#L20). 
 
 ```
 ./gpu-test.sh --config config-xpu.json
