@@ -10,13 +10,13 @@ if [[ "$USE_CPU" == "1" ]]; then
 fi
 if [[ "$USE_CUDA" == "1" ]]; then
     gpumgrcmd="nvidia-smi --query-gpu=index,name --format=csv,noheader"
-    gpufreemem="nvidia-smi --query-gpu=memory.free --format=csv,noheader | \
+    gpufreememcmd="nvidia-smi --query-gpu=memory.free --format=csv,noheader | \
         cut -d' ' -f1"
     export PATH="/opt/venv-cuda/bin:${PATH}"
 fi
 if [[ "$USE_XPU" == "1" ]]; then
-    gpumgrcmd="xpu-smi"
-    gpufreemem="xpu-smi"
+    gpumgrcmd="clinfo -l --raw | tail -1"
+    gpufreememcmd="clinfo --raw | grep CL_DEVICE_GLOBAL_MEM_SIZE | awk '{print \$NF}'"
     export PATH="/opt/venv-xpu/bin:${PATH}"
 fi
 
@@ -24,9 +24,9 @@ if [[ ! -z "${gpumgrcmd}" ]]; then
     echo "gpumgrcmd: ${gpumgrcmd}"
     echo -n "gpumgrcmdres: "
     eval ${gpumgrcmd}
-    #echo "${gpufreemem}"
-    echo -n "gpufreemem: "
-    eval ${gpufreemem}
+    echo "gpufreememcmd: ${gpufreememcmd}"
+    echo -n "gpufreememres: "
+    eval ${gpufreememcmd}
 fi
 
 appcmd="python3 test.py"
@@ -47,3 +47,4 @@ awk '
     ' "${tmpfile}"
 
 sleep infinity
+

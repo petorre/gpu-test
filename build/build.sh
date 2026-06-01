@@ -41,3 +41,4 @@ echo "Build arguments are: ${BUILDARGS}"
 
 cmd="docker build ${BUILDARGS} -t ${IMAGENAME} ."
 $cmd
+

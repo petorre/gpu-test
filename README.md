@@ -58,12 +58,13 @@ Usage: ./gpu-test.sh [OPTIONS]
   --delete-ns            Delete k8s Namespace
 ```
 
+### On NVidia GPUs
 
 ```
 ./gpu-test.sh
 ```
 
-should give something like
+will default to [config.json](./config.json) and should give something like
 
 ```
 {
@@ -91,6 +92,48 @@ should give something like
 
 Started with debug flag ```./gpu-test.sh --debug``` would override debug=false field in config.json.
 
+### On Intel GPUs
+
+Check group ID of render group with
+
+```
+stat -c %g /dev/dri/renderD128
+```
+
+which should be the same as ```supplementalGroups``` in [k8s/1-gpu-test-xpu.yaml](./k8s/1-gpu-test-xpu.yaml).
+
+```
+./gpu-test.sh --config config-xpu.json
+```
+
+will use [config-xpu.json](./config-xpu.json) and should give something like
+
+```
+{
+  "flavourValidation": {
+    "testCases": [
+      {
+        "name": "gpu-test",
+        "description": "Validate GPU allocation, run GPU manager and dummy app",
+        "nodes": [
+          {
+            "name": "node1",
+            "result": true,
+            "debug": "gpumgrcmdres:_0.0:_Intel(R)_Graphics_[0xe212];_gpufreememres:_16241180672;_appcmdres:_333283328000.00;_appcmddebug:_===_Device_Test_with_Data_Transfer_===;_Device:_cuda;_GPU:_Intel(R)_Graphics_[0xe212];_PyTorch:_2.9.0+xpu;_Data_size:_381.47_MB;_Moving_data_to_cuda...;_Transfer_time:_0.0302_seconds;_Performing_matrix_multiplication...;_Compute_time:_0.3230_seconds;_Result_shape:_torch.Size([10000,_10000]);_Sample_value_at_[0,0]:_333283328000.00"
+          }
+        ],
+        "timeStamps": {
+          "startTime": "Mon Jun  1 04:54:00 PM UTC 2026",
+          "stopTime": "Mon Jun  1 04:54:27 PM UTC 2026"
+        }
+      }
+    ]
+  }
+}
+```
+
 ## Validated OS, k8s distribution and server/VM with GPU
 
-Ubuntu 24.04.4 LTS, k3s v1.35.4+k3s1, EC2 with L4.
+Ubuntu 24.04.4 LTS, k3s v1.35.4+k3s1, AWS EC2, with NVidia L4.
+Ubuntu 24.04.4 LTS, k3s v1.35.5+k3s1, Intel Xeon 6 validation platform, with Intel ArcPro B50.
+

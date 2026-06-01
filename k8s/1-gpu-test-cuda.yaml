@@ -37,22 +37,16 @@ spec:
             cpu: "2"
             memory: "4Gi"
             nvidia.com/gpu: "1"
-            #intel.com/gpu: "1"
           requests:
             cpu: "2"
             memory: "4Gi"
             nvidia.com/gpu: "1"
-            #intel.com/gpu: "1"
         volumeMounts:
-          - mountPath: /mktemp
-            name: mktemp
+        - mountPath: /mktemp
+          name: mktemp
         env:
-          - name: USE_CUDA
-            value: "1"
-          #- name: USE_XPU
-          #  value: "1"
-          #- name: USE_CPU
-          #  value: "1"
+        - name: USE_CUDA
+          value: "1"
         command: ["/entrypoint.sh"]
         #command: ["/bin/bash", "-c", "sleep infinity"]
       # nodeSelector:

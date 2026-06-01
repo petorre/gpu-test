@@ -19,6 +19,15 @@ LABEL=""
 NODE=""
 DELETE_NS="false"
 
+# check requirements
+for c in "kubectl" "jq" "jo" "awk"; do
+    r=$( type "${c}" >> /dev/null 2>>/dev/null && echo 1 || echo 0 )
+    if [[ "${r}" -eq 0 ]]; then
+        echo "Error: ${c} not found! Exiting."
+	exit 1
+    fi
+done
+
 # parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -187,7 +196,7 @@ if [[ -e "${CONFIGFILE}" ]]; then
                             if ( $2=="0," )
                                 gpumgrcmdresmustexist=1;
                         }
-                        $1=="gpufreemem:" {
+                        $1=="gpufreememres:" {
                             if ( $2 >= GPUFREEMEMMIN )
                                 gpufreememmin=1;
                         }
@@ -207,13 +216,13 @@ if [[ -e "${CONFIGFILE}" ]]; then
                 if [[ "${DEBUG}" == "true" ]]; then
                     gpumgrcmdresline=$( grep "gpumgrcmdres:" "${t}" || \
                         echo "no_gpumgrcmdres" )
-                    gpufreememline=$( grep "gpufreemem:" "${t}" || \
-                        echo "no_gpufreemem" )
+                    gpufreememresline=$( grep "gpufreememres:" "${t}" || \
+                        echo "no_gpufreememres" )
                     appcmdresline=$( grep "appcmdres:" "${t}" || \
                         echo "no_appcmdres" )
                     appcmddebugline=$( grep "appcmddebug:" "${t}" || \
                         echo "no_appcmddebug" )
-                    d=$( echo "${gpumgrcmdresline}; ${gpufreememline}; \
+                    d=$( echo "${gpumgrcmdresline}; ${gpufreememresline}; \
 ${appcmdresline}; ${appcmddebugline}" | sed "s/ /_/g" )
                     j_n+=( $( jo name="${n}" result="${r}" debug="${d}" ) )
                 else

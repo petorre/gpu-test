@@ -20,6 +20,9 @@ RUN apt update && \
     apt install -y python3 python3.12-venv pip && \
     rm -rf /var/lib/apt/lists/*
 
+RUN groupadd -g 10001 gpu-test && \
+    useradd -u 10001 -g gpu-test gpu-test
+
 COPY image/ /
 
 RUN if [ "$BUILD_CPU" = "1" ]; then \
@@ -36,8 +39,6 @@ RUN if [ "$BUILD_XPU" = "1" ]; then \
         /opt/prep_venv.sh xpu; \
     fi
 
-RUN groupadd -g 10001 gpu-test && \
-    useradd -u 10001 -g gpu-test gpu-test
 USER gpu-test
 
 WORKDIR /root

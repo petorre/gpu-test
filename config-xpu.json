@@ -13,7 +13,7 @@
     "deployFiles": {
       "directory": "k8s",
       "namespace": "0-ns",
-      "gpuTest": "1-gpu-test-cuda"
+      "gpuTest": "1-gpu-test-xpu"
     }
   },
   "testCases": [
@@ -21,7 +21,7 @@
       "name": "validateGPU",
       "description": "Validate GPU allocation, run GPU manager and dummy app",
       "comment1": "For Intel GPU use allocationDeviceName gpu.intel.com/xe",
-      "allocationDeviceName": "nvidia.com/gpu",
+      "allocationDeviceName": "gpu.intel.com/xe",
       "allocationDeviceMin": 1,
       "comment2": "For gpumgrcmdresMustExist==true, the gpumgrcmdres must give  output starting with 0, ",
       "gpumgrcmdresMustExist": true,

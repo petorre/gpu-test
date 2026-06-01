@@ -1,0 +1,60 @@
+# Copyright (C) 2026 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+#
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: gpu-test
+  namespace: gpu-test
+spec:
+  selector:
+    matchLabels:
+      app: gpu-test
+  template:
+    metadata:
+      labels:
+        app: gpu-test
+    spec:
+      securityContext:
+        supplementalGroups: [993]  # stat -c %g /dev/dri/renderD128
+      restartPolicy: Always
+      containers:
+      - name: gpu-test
+        image: localhost:5000/gpu-test:latest  # or where you pushed the image
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 10001
+          runAsGroup: 10001
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+            gpu.intel.com/xe: "1"
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+            gpu.intel.com/xe: "1"
+        volumeMounts:
+        - mountPath: /mktemp
+          name: mktemp
+        env:
+        - name: USE_XPU
+          value: "1"
+        command: ["/entrypoint.sh"]
+        #command: ["/bin/bash", "-c", "sleep infinity"]
+      # nodeSelector:
+      #   node-role.kubernetes.io/gpu: "true"  # any label to filter out other
+      volumes:
+      - name: mktemp
+        emptyDir:
+          medium: Memory
+

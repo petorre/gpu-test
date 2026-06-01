@@ -27,7 +27,7 @@ apt-get install -y \
     libze1 \
     libze-intel-gpu1 \
     clinfo \
-    xpu-smi
+    pciutils
 mkdir -p /etc/OpenCL/vendors
 ldconfig
 
@@ -37,3 +37,4 @@ apt-get install -y \
     intel-ocloc
 apt-get clean
 rm -rf /var/lib/apt/lists/*
+
