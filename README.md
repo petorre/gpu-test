@@ -77,7 +77,7 @@ will default to [config.json](./config.json) and should give something like
           {
             "name": "node1",
             "result": true,
-            "debug": "gpumgrcmdres:_0,_NVIDIA_L4;_gpufreemem:_22564;_appcmdres:_333283328000.00;_appcmddebug:_===_Device_Test_with_Data_Transfer_===;_Device:_cuda;_GPU:_NVIDIA_L4;_PyTorch:_2.12.0+cu130;_Data_size:_381.47_MB;_Moving_data_to_cuda...;_Transfer_time:_0.1237_seconds;_Performing_matrix_multiplication...;_Compute_time:_0.2321_seconds;_Result_shape:_torch.Size([10000,_10000]);_Sample_value_at_[0,0]:_333283328000.00"
+            "debug": "gpumgrcmdres:_0,_Tesla_T4;_gpufreememres:_11748;_appcmddev:_cuda;_appcmdres:_333283328000.00;_appcmddebug:_===_Device_Test_with_Data_Transfer_===;_Device:_cuda;_GPU:_Tesla_T4;_PyTorch:_2.12.0+cu130;_Data_size:_381.47_MB;_Moving_data_to_cuda...;_Transfer_time:_0.2784_seconds;_Performing_matrix_multiplication...;_Compute_time:_0.9407_seconds;_Result_shape:_torch.Size([10000,_10000]);_Sample_value_at_[0,0]:_333283328000.00"
           }
         ],
         "timeStamps": {
@@ -119,7 +119,7 @@ will use [config-xpu.json](./config-xpu.json) and should give something like
           {
             "name": "node1",
             "result": true,
-            "debug": "gpumgrcmdres:_0.0:_Intel(R)_Graphics_[0xe212];_gpufreememres:_16241180672;_appcmdres:_333283328000.00;_appcmddebug:_===_Device_Test_with_Data_Transfer_===;_Device:_cuda;_GPU:_Intel(R)_Graphics_[0xe212];_PyTorch:_2.9.0+xpu;_Data_size:_381.47_MB;_Moving_data_to_cuda...;_Transfer_time:_0.0302_seconds;_Performing_matrix_multiplication...;_Compute_time:_0.3230_seconds;_Result_shape:_torch.Size([10000,_10000]);_Sample_value_at_[0,0]:_333283328000.00"
+            "debug": "gpumgrcmdres:_0.0:_Intel(R)_Graphics_[0xe212];_gpufreememres:_16241180672;_appcmddev:_cuda;_appcmdres:_333283328000.00;_appcmddebug:_===_Device_Test_with_Data_Transfer_===;_Device:_cuda;_GPU:_Intel(R)_Graphics_[0xe212];_PyTorch:_2.9.0+xpu;_Data_size:_381.47_MB;_Moving_data_to_cuda...;_Transfer_time:_0.0296_seconds;_Performing_matrix_multiplication...;_Compute_time:_0.3220_seconds;_Result_shape:_torch.Size([10000,_10000]);_Sample_value_at_[0,0]:_333283328000.00"
           }
         ],
         "timeStamps": {
