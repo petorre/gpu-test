@@ -5,4 +5,4 @@
 
 set -ex
 
-docker run -d --restart always -p 5000:5000 --name local-registry registry:2
+docker run -d --restart always -p 5000:5000 --name local-registry registry:3

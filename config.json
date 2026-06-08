@@ -28,6 +28,7 @@
       "comment3": "gpufreememMin is in MB",
       "gpufreememMin": 1,
       "comment3": "appcmdres is sample output of dummy application command",
+      "appcmddev": "cuda",
       "appcmdres": "333283328000.00"
     }
   ]

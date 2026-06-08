@@ -107,6 +107,7 @@ if [[ -e "${CONFIGFILE}" ]]; then
     GPU_MGR_CMD_RES_MUST_EXIST=$( echo "${tc}" | \
         jq -r ' .gpumgrcmdresMustExist' )
     GPU_FREE_MEM_MIN=$( echo "${tc}" | jq -r ' .gpufreememMin' )
+    APP_CMD_DEV=$( echo "${tc}" | jq -r ' .appcmddev' )
     APP_CMD_RES=$( echo "${tc}" | jq -r ' .appcmdres' )
 
     # delete NS and exit?
@@ -191,7 +192,8 @@ if [[ -e "${CONFIGFILE}" ]]; then
                 kubectl logs -n "${NS}" "${p}" > "${t}"
                 r=$( awk -v GPUMGRCMDRESMUSTEXIST="true" \
                         -v GPUFREEMEMMIN="1" \
-                        -v APPCMDRES="333283328000.00" '
+                        -v APPCMDDEV="${APP_CMD_DEV}" \
+                        -v APPCMDRES="${APP_CMD_RES}" '
                         GPUMGRCMDRESMUSTEXIST=="true" && $1=="gpumgrcmdres:" {
                             if ( $2=="0," )
                                 gpumgrcmdresmustexist=1;
@@ -200,6 +202,10 @@ if [[ -e "${CONFIGFILE}" ]]; then
                             if ( $2 >= GPUFREEMEMMIN )
                                 gpufreememmin=1;
                         }
+                        $1=="appcmddev:" {
+                            if ( $0~APPCMDDEV )
+                                appcmddev=1;
+                        }
                         $1=="appcmdres:" {
                             if ( $2==APPCMDRES )
                                 appcmdres=1;
@@ -207,7 +213,7 @@ if [[ -e "${CONFIGFILE}" ]]; then
                         END {
                             if ( ( GPUMGRCMDRESMUSTEXIST=="true" &&
                                 gpumgrcmdresmustexist || 1 ) &&
-                                gpufreememmin && appcmdres )
+                                gpufreememmin && appcmddev && appcmdres )
                                     print "true";
                             else
                                 print "false";
@@ -218,12 +224,14 @@ if [[ -e "${CONFIGFILE}" ]]; then
                         echo "no_gpumgrcmdres" )
                     gpufreememresline=$( grep "gpufreememres:" "${t}" || \
                         echo "no_gpufreememres" )
+                    appcmddevline=$( grep "appcmddev:" "${t}" || \
+                        echo "no_appcmddev" )
                     appcmdresline=$( grep "appcmdres:" "${t}" || \
                         echo "no_appcmdres" )
                     appcmddebugline=$( grep "appcmddebug:" "${t}" || \
                         echo "no_appcmddebug" )
                     d=$( echo "${gpumgrcmdresline}; ${gpufreememresline}; \
-${appcmdresline}; ${appcmddebugline}" | sed "s/ /_/g" )
+${appcmddevline}; ${appcmdresline}; ${appcmddebugline}" | sed "s/ /_/g" )
                     j_n+=( $( jo name="${n}" result="${r}" debug="${d}" ) )
                 else
                     j_n+=( $( jo name="${n}" result="${r}" ) )

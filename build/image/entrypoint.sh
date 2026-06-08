@@ -33,6 +33,8 @@ appcmd="python3 test.py"
 echo "appcmd: ${appcmd}"
 tmpfile=$( mktemp -p /mktemp )
 eval ${appcmd} > "${tmpfile}"
+echo -n "appcmddev: "
+grep "^Device: " "${tmpfile}" | cut -d' ' -f2-
 echo -n "appcmdres: "
 tail -1 $tmpfile | cut -d' ' -f5
 echo -n "appcmddebug: "
